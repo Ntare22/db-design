@@ -105,3 +105,62 @@ HAVING COUNT(animals.name) = (
     GROUP BY owners.full_name
   ) AS owners_ranking
 );
+
+SELECT a.name, visit_date FROM vets v INNER JOIN visits vi ON v.id = vi.vets_id
+INNER JOIN animals a ON a.id = vi.animals_id
+WHERE v.name = 'William Tatcher'
+ORDER BY visit_date DESC
+LIMIT 1;
+
+SELECT DISTINCT v.name, COUNT(a.name) FROM vets v INNER JOIN visits vi ON v.id = vi.vets_id
+INNER JOIN animals a ON a.id = vi.animals_id
+WHERE v.name = 'Stephanie Mendez'
+GROUP BY v.name;
+
+SELECT v.name vet, s.name specialty FROM vets v LEFT JOIN specializations sp ON v.id = sp.vets_id
+LEFT JOIN species s ON s.id = sp.species_id;
+
+
+SELECT a.name, visit_date FROM animals a INNER JOIN visits vi ON a.id = vi.animals_id
+INNER JOIN vets v ON v.id = vi.vets_id
+WHERE v.name = 'Stephanie Mendez' AND visit_date BETWEEN '2020-04-01' AND '2020-08-30';
+
+
+SELECT a.name, COUNT(vi.animals_id) visit_count FROM animals a INNER JOIN visits vi ON a.id = vi.animals_id
+INNER JOIN vets v ON v.id = vi.vets_id
+GROUP BY a.name
+ORDER BY COUNT(vi.animals_id) DESC
+LIMIT 1;
+
+
+SELECT a.name, visit_date FROM vets v INNER JOIN visits vi ON v.id = vi.vets_id
+INNER JOIN animals a ON a.id = vi.animals_id
+WHERE v.name = 'Maisy Smith'
+ORDER BY visit_date ASC
+LIMIT 1;
+
+
+SELECT a.name animal_name, a.date_of_birth, a.escape_attempts,
+a.neutered, a.weight_kg,
+v.name vet, v.age vet_age, v.date_of_graduation vet_date_of_graduation
+FROM vets v INNER JOIN visits vi ON v.id = vi.vets_id
+INNER JOIN animals a ON a.id = vi.animals_id
+ORDER BY vi.visit_date DESC;
+
+
+SELECT v.name vet, COUNT(a.id) FROM visits vi INNER JOIN vets v ON vi.vets_id = v.id
+LEFT JOIN specializations sp ON v.id = sp.vets_id
+INNER JOIN animals a ON vi.animals_id = a.id
+WHERE sp.species_id != a.species_id
+OR sp.species_id IS NULL
+GROUP BY v.name
+LIMIT 1;
+
+
+SELECT s.name specialty, COUNT(visit_date) FROM vets v INNER JOIN visits vi ON v.id = vi.vets_id
+INNER JOIN animals a ON a.id = vi.animals_id
+INNER JOIN species s ON a.species_id = s.id
+WHERE v.name = 'Maisy Smith'
+GROUP BY s.name
+LIMIT 1;
+
