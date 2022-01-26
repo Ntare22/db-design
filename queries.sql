@@ -164,3 +164,6 @@ WHERE v.name = 'Maisy Smith'
 GROUP BY s.name
 LIMIT 1;
 
+explain analyze select distinct(count(*)) from visits where animal_id = 4;
+explain analyze select distinct vet_id from visits where vet_id = 2
+explain analyze select email from owners where email = 'owner_18327@mail.com';
